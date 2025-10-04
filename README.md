@@ -44,3 +44,16 @@ def test_get_course():
 - This project uses Protocol Buffers for efficient serialization.
 - Communication is done over HTTP/2 using gRPC.
 - Ideal for learning how to build fast, scalable APIs.
+
+________________________
+
+To run local server for tests:
+Open project: qa-automation-engineer-api-course
+
+Run:
+uvicorn main:app --reload
+
+Open: http://localhost:8000
+And:  http://localhost:8000/docs
+
+Expected: Both urls should be opened, readable and usable
