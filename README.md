@@ -1,9 +1,18 @@
-This project demonstrates a simple gRPC API for retrieving course information. It includes:
+# API Testing with Pytest (REST + Swagger + JSON Schema)
 
-- ✅ Protocol Buffers contract (`.proto`)
-- ✅ gRPC server implementation
-- ✅ gRPC client implementation
-- ✅ Auto-generated Python bindings
+Automated REST API tests using Python and Pytest, with response validation and JSON schema checks 
+Integrates Swagger UI for interactive API documentation and Allure for reporting
+
+> Focus: request/response validation, token auth, and modular test structure.
+
+
+
+Simple gRPC API for retrieving course information. It includes:
+
+- Protocol Buffers contract (`.proto`)
+- gRPC server implementation
+- gRPC client implementation
+- Auto-generated Python bindings
 
 How to run the server
 
@@ -60,7 +69,7 @@ Expected: Both urls should be opened, readable and usable
 
 ____
 
-WebSocket for API
+Simple WebSocket for API
 Make sure you have Python 3.7+ installed. Then follow these steps:
 # Create a virtual environment (optional but recommended)
 python -m venv .venv
@@ -86,10 +95,6 @@ Running the Client
 To test the server with a simple client:
 python websocket_client.py
 
-Expected output:
-Sending: Hello, server!
-Server's response: Server received: Hello, server!
 
 Stopping the Server
-Press Ctrl+C in the terminal to stop the server gracefully. If you've added the try/except block, you'll see:
-Server stopped manually.
+Press Ctrl+C in the terminal to stop the server gracefully
