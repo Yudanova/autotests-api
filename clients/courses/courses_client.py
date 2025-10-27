@@ -3,15 +3,13 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-
+from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
 
 class GetCoursesQueryDict(TypedDict):
     """
     Describes the structure of the request for retrieving a list of courses.
     """
-
     userId: str
-
 
 class CreateCourseRequestDict(TypedDict):
     """
@@ -25,7 +23,6 @@ class CreateCourseRequestDict(TypedDict):
     previewFileId: str
     createdByUserId: str
 
-
 class UpdateCourseRequestDict(TypedDict):
     """
     Describes the structure of the request for updating a course.
@@ -35,7 +32,6 @@ class UpdateCourseRequestDict(TypedDict):
     minScore: int | None
     description: str | None
     estimatedTime: str | None
-
 
 class CoursesClient(APIClient):
     """
@@ -53,20 +49,19 @@ class CoursesClient(APIClient):
 
     def get_course_api(self, course_id: str) -> Response:
         """
-        Method for retrieving a course by ID.
+        Method for retrieving a course.
 
         :param course_id: Course identifier.
         :return: Server response as an httpx.Response object
         """
-
         return self.get(f"/api/v1/courses/{course_id}")
 
     def create_course_api(self, request: CreateCourseRequestDict) -> Response:
         """
         Method for creating a course.
 
-        :param request: Dictionary containing title, maxScore, minScore, description,
-        estimatedTime, previewFileId, createdByUserId.
+        :param request: Dictionary containing title, maxScore, minScore, description, estimatedTime,
+        previewFileId, createdByUserId.
         :return: Server response as an httpx.Response object
         """
         return self.post("/api/v1/courses", json=request)
@@ -79,7 +74,6 @@ class CoursesClient(APIClient):
         :param request: Dictionary containing title, maxScore, minScore, description, estimatedTime.
         :return: Server response as an httpx.Response object
         """
-
         return self.patch(f"/api/v1/courses/{course_id}", json=request)
 
     def delete_course_api(self, course_id: str) -> Response:
@@ -90,3 +84,12 @@ class CoursesClient(APIClient):
         :return: Server response as an httpx.Response object
         """
         return self.delete(f"/api/v1/courses/{course_id}")
+
+# Add builder for CoursesClient
+def get_courses_client(user: AuthenticationUserDict) -> CoursesClient:
+    """
+    Function creates an instance of CoursesClient with a preconfigured HTTP client.
+
+    :return: A ready-to-use CoursesClient instance.
+    """
+    return CoursesClient(client=get_private_http_client(user))
