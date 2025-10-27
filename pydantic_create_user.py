@@ -14,13 +14,14 @@ from pydantic import BaseModel, Field, EmailStr
 
 class UserSchema(BaseModel):
     """
-    Describes the structure of a user.
+    Represents the structure of a user object.
     """
     id: str
     email: EmailStr
     last_name: str = Field(alias="lastName")
     first_name: str = Field(alias="firstName")
     middle_name: str = Field(alias="middleName")
+
 
 # 2-nd Structure
 """
@@ -39,13 +40,15 @@ class UserSchema(BaseModel):
 
 class CreateUserRequestSchema(BaseModel):
     """
-    Describes the structure of a user creation request.
+    Represents the structure of a request to create a new user.
     """
     email: EmailStr
     password: str
     last_name: str = Field(alias="lastName")
     first_name: str = Field(alias="firstName")
     middle_name: str = Field(alias="middleName")
+
+
 
 
 # 3-d Structure
@@ -66,6 +69,6 @@ class CreateUserRequestSchema(BaseModel):
 
 class CreateUserResponseSchema(BaseModel):
     """
-    Describes the structure of a user creation response.
+    Represents the structure of a response containing the created user.
     """
     user: UserSchema

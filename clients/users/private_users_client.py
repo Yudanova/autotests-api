@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-from clients.private_http_builder import get_private_http_client, AuthenticationUserDict
+from clients.private_http_builder import get_private_http_client, AuthenticationUserSchema
 
 # Added description of the user structure
 class User(TypedDict):
@@ -78,7 +78,7 @@ class PrivateUsersClient(APIClient):
         response = self.get_user_api(user_id)
         return response.json()
 
-def get_private_users_client(user: AuthenticationUserDict) -> PrivateUsersClient:
+def get_private_users_client(user: AuthenticationUserSchema) -> PrivateUsersClient:
     """
     Function creates an instance of PrivateUsersClient with a preconfigured HTTP client.
 

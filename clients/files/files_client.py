@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
+from clients.private_http_builder import AuthenticationUserSchema, get_private_http_client
 
 # Added description of the file structure
 class File(TypedDict):
@@ -71,7 +71,7 @@ class FilesClient(APIClient):
         response = self.create_file_api(request)
         return response.json()
 
-def get_files_client(user: AuthenticationUserDict) -> FilesClient:
+def get_files_client(user: AuthenticationUserSchema) -> FilesClient:
     """
     Function creates an instance of FilesClient with a preconfigured HTTP client.
 
