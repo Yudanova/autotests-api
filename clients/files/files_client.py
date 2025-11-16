@@ -1,34 +1,8 @@
-from typing import TypedDict
-
 from httpx import Response
-
 from clients.api_client import APIClient
-from clients.private_http_builder import AuthenticationUserSchema, get_private_http_client
+from clients.private_http_builder import get_private_http_client, AuthenticationUserSchema
+from clients.files.files_schema import CreateFileRequestSchema, CreateFileResponseSchema
 
-# Added description of the file structure
-class File(TypedDict):
-    """
-    Describes the structure of a file.
-    """
-    id: str
-    url: str
-    filename: str
-    directory: str
-
-class CreateFileRequestDict(TypedDict):
-    """
-    Describes the structure of the request for creating a file.
-    """
-    filename: str
-    directory: str
-    upload_file: str
-
-# Added description of the file creation response structure
-class CreateFileResponseDict(TypedDict):
-    """
-    Describes the structure of the response when creating a file.
-    """
-    file: File
 
 class FilesClient(APIClient):
     """
@@ -44,18 +18,24 @@ class FilesClient(APIClient):
         """
         return self.get(f"/api/v1/files/{file_id}")
 
-    def create_file_api(self, request: CreateFileRequestDict) -> Response:
+    def create_file_api(self, request: CreateFileRequestSchema) -> Response:
         """
         Method for creating a file.
 
-        :param request: Dictionary containing filename, directory, upload_file.
+        :param request: Pydantic schema containing filename, directory, upload_file.
         :return: Server response as an httpx.Response object
         """
-        return self.post(
-            "/api/v1/files",
-            data=request,
-            files={"upload_file": open(request['upload_file'], 'rb')}
-        )
+        with open(request.upload_file, "rb") as f:
+            files = {"upload_file": (request.filename, f, "image/png")}
+            data = {
+                "filename": request.filename,
+                "directory": request.directory
+            }
+            return self.post(
+                url="/api/v1/files",
+                data=data,
+                files=files
+            )
 
     def delete_file_api(self, file_id: str) -> Response:
         """
@@ -66,10 +46,16 @@ class FilesClient(APIClient):
         """
         return self.delete(f"/api/v1/files/{file_id}")
 
-    # Added new method
-    def create_file(self, request: CreateFileRequestDict) -> CreateFileResponseDict:
+    def create_file(self, request: CreateFileRequestSchema) -> CreateFileResponseSchema:
+        """
+        High-level method for creating a file and returning structured response.
+
+        :param request: Pydantic schema with file creation data.
+        :return: Pydantic response schema with file data.
+        """
         response = self.create_file_api(request)
-        return response.json()
+        return CreateFileResponseSchema(**response.json())
+
 
 def get_files_client(user: AuthenticationUserSchema) -> FilesClient:
     """

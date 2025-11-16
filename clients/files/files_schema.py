@@ -1,5 +1,6 @@
-from pydantic import BaseModel, HttpUrl
-
+from pydantic import BaseModel, HttpUrl, Field
+# Import the pre-created instance of the Fake class
+from tools.fakers import fake
 
 class FileSchema(BaseModel):
     """
@@ -13,11 +14,24 @@ class FileSchema(BaseModel):
 
 class CreateFileRequestSchema(BaseModel):
     """
-    Description the Request structure for creation the file.
+    Description of the request structure for creating a file.
     """
-    filename: str
-    directory: str
+    # Added random filename generation with PNG extension
+    filename: str = Field(default_factory=lambda: f"{fake.uuid4()}.png")
+    # Directory is kept static so all test files on the server go into one folder
+    directory: str = Field(default="tests")
     upload_file: str
+
+
+
+
+
+#default_factory, the filename will be automatically generated as a random UUID followed by .png:
+#create_file_request = CreateFileRequestSchema(upload_file="file_data")
+#directory:
+#We keep the static value `"tests"` to simplify testing — all uploaded test files will go into a single folder.
+
+
 
 
 class CreateFileResponseSchema(BaseModel):
@@ -27,17 +41,24 @@ class CreateFileResponseSchema(BaseModel):
     file: FileSchema
 
 
-
-
-
-
-# class CreateFileRequestSchema(BaseModel):
-#     filename: str
-#     directory: str
-#     upload_file: str  # The path to file
+# Calling print(CreateFileRequestSchema(upload_file="./text/file.txt")) will output a model instance where:
+# - filename is auto-generated as a random UUID with .png extension
+# - directory is set to the static value "tests"
+# - upload_file is manually provided as "./text/file.txt"
 #
-# class CreateFileResponseSchema(BaseModel):
-#     id: int
-#     filename: str
-#     directory: str
-#     url: str
+#
+# print(CreateFileRequestSchema(upload_file="./text/file.txt"))
+# Example output:
+# filename='64a63696-7538-475b-a04f-a1f86f08d480.png' directory='tests' upload_file='./text/file.txt'
+
+
+
+
+
+
+
+
+
+
+
+
