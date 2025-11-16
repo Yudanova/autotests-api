@@ -4,13 +4,13 @@ from clients.users.public_users_client import get_public_users_client
 
 # Instead of CreateUserRequestDict, we import CreateUserRequestSchema
 from clients.users.users_schema import CreateUserRequestSchema
-from tools.fakers import get_random_email
+from tools.fakers import fake
 
 public_users_client = get_public_users_client()
 
 # Instead of CreateUserRequestDict, we use CreateUserRequestSchema
 create_user_request = CreateUserRequestSchema(
-    email=get_random_email(),
+    email=fake.email(),
     password="string",
     last_name="string",  # Pass arguments in snake_case format instead of camelCase
     first_name="string",  # Pass arguments in snake_case format instead of camelCase
