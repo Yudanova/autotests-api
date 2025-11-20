@@ -2,9 +2,6 @@ from pydantic import BaseModel, Field, EmailStr, ConfigDict
 # Import the pre-created instance of the Fake class
 from tools.fakers import fake
 
-# The rest of the code remains unchanged
-
-
 class UserSchema(BaseModel):
     """
     Description of the user structure.
