@@ -11,7 +11,7 @@ from clients.authentication.authentication_schema import LoginRequestSchema, Log
 # User creation client and request schema.
 from clients.users.public_users_client import get_public_users_client,PublicUsersClient
 from clients.users.users_schema import CreateUserRequestSchema
-from tests.conftest import UserFixture
+from fixtures.users import UserFixture
 
 # Custom (my own) assertion functions.
 from tools.assertions.authentication import assert_login_response
