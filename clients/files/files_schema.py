@@ -23,6 +23,14 @@ class CreateFileRequestSchema(BaseModel):
     upload_file: str
 
 
+class GetFileResponseSchema(BaseModel):
+    """
+    Description of the structure of a file retrieval request.
+    """
+    file: FileSchema
+
+
+
 
 
 

@@ -21,12 +21,12 @@ class FilesClient(APIClient):
     def create_file_api(self, request: CreateFileRequestSchema) -> Response:
         """
         Method for creating a file.
-
-        :param request: Pydantic schema containing filename, directory, upload_file.
-        :return: Server response as an httpx.Response object
         """
+        # If filename is empty - use safety name for multipart
+        multipart_filename = request.filename if request.filename else "upload.png"
+
         with open(request.upload_file, "rb") as f:
-            files = {"upload_file": (request.filename, f, "image/png")}
+            files = {"upload_file": (multipart_filename, f, "image/png")}
             data = {
                 "filename": request.filename,
                 "directory": request.directory
@@ -36,6 +36,25 @@ class FilesClient(APIClient):
                 data=data,
                 files=files
             )
+
+    # def create_file_api(self, request: CreateFileRequestSchema) -> Response:
+    #     """
+    #     Method for creating a file.
+    #
+    #     :param request: Pydantic schema containing filename, directory, upload_file.
+    #     :return: Server response as an httpx.Response object
+    #     """
+    #     with open(request.upload_file, "rb") as f:
+    #         files = {"upload_file": (request.filename, f, "image/png")}
+    #         data = {
+    #             "filename": request.filename,
+    #             "directory": request.directory
+    #         }
+    #         return self.post(
+    #             url="/api/v1/files",
+    #             data=data,
+    #             files=files
+    #         )
 
     def delete_file_api(self, file_id: str) -> Response:
         """
