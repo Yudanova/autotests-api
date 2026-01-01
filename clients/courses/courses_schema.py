@@ -29,6 +29,12 @@ class GetCoursesQuerySchema(BaseModel):
 
     user_id: str = Field(alias="userId")
 
+class GetCoursesResponseSchema(BaseModel):
+    """
+    Description request structure for getting course List.
+    """
+    courses: list[CourseSchema]
+
 
 class CreateCourseRequestSchema(BaseModel):
     """
@@ -111,7 +117,11 @@ since updating a course does not involve changing its author or preview file.
     # description: str | None
     # estimated_time: str | None = Field(alias="estimatedTime")
 
-
+class UpdateCourseResponseSchema(BaseModel):
+    """
+        Structure description of the updated course's response
+        """
+    course: CourseSchema
 
 
 
