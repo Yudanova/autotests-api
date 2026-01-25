@@ -1,6 +1,8 @@
 # Allows using HTTPStatus.OK instead of the magic number 200
 from http import HTTPStatus
 import pytest
+import allure
+from allure_commons.types import Severity
 
 # Import the authentication client and its Pydantic schemas:
 # LoginRequestSchema — what we send.
@@ -12,6 +14,10 @@ from clients.authentication.authentication_schema import LoginRequestSchema, Log
 from clients.users.public_users_client import get_public_users_client,PublicUsersClient
 from clients.users.users_schema import CreateUserRequestSchema
 from fixtures.users import UserFixture
+from tools.allure.tags import AllureTag
+from tools.allure.epics import AllureEpic  # Import enum AllureEpic
+from tools.allure.features import AllureFeature  # Import enum AllureFeature
+from tools.allure.stories import AllureStory  # Import enum AllureStory
 
 # Custom (my own) assertion functions.
 from tools.assertions.authentication import assert_login_response
@@ -21,7 +27,13 @@ from tools.assertions.schema import validate_json_schema
 # Pytest automatically detects and executes this test.
 @pytest.mark.regression
 @pytest.mark.authentication
+@allure.tag(AllureTag.REGRESSION, AllureTag.AUTHENTICATION)
+@allure.epic(AllureEpic.LMS)  # Added epic
+@allure.feature(AllureFeature.AUTHENTICATION)  # Added feature
 class TestAuthentication:
+    @allure.story(AllureStory.LOGIN)  # Added story
+    @allure.title("Login with correct email and password")
+    @allure.severity(Severity.BLOCKER)
     def test_login(self, function_user:UserFixture,public_users_client: PublicUsersClient, authentication_client:AuthenticationClient):
 
         request = LoginRequestSchema(email=function_user.email,password=function_user.password)

@@ -2,6 +2,8 @@
 .venv/
 venv/
 
+
+
 # Byte-compiled files
 __pycache__/
 *.py[cod]
@@ -10,12 +12,14 @@ __pycache__/
 # PyCharm
 .idea/
 
-# VSCode (just in case)
+# VSCode
 .vscode/
 
 # Environment files
 .env
 *.env
+.env.*
+
 
 # Logs
 *.log
@@ -23,6 +27,7 @@ __pycache__/
 # Cache & test artifacts
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
 
 # Jupyter (if ever used)
@@ -36,3 +41,16 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Allure generated data
+allure-results/
+allure-report/
+
+# Playwright / browser artifacts
+test-results/
+playwright-report/
+screenshots/
+videos/
+
+
+
